@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt= express('bcrypt')
+const bcrypt= require('bcrypt')
 
 const {User,validate}=require('../Models/userModle')
 
@@ -18,12 +18,12 @@ router.post('/add-user', async (req, res) => {
     try {
         const { name, phoneNumber, password } = req.body;
 
-       
+       const hashedPassword=  await bcrypt.hash(password,10)
 
         const newUser = new User({
             name: name,
             phoneNumber: phoneNumber,
-            password: password
+            password: hashedPassword
         });
 
         const savedUser = await newUser.save();
