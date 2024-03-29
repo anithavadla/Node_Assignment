@@ -1,35 +1,34 @@
 const express = require('express')
 const router = express.Router()
-
-const users=
-[
-    {id:1,name:'Anitha',phoneNumber:1234567890,password:'anitha'},
-    {id:2,name:'Harhshada',phoneNumber:1234567890,password:'harshada'},
-    {id:3,name:'Lakshmi',phoneNumber:1234567890,password:'lakshmi'},
-    
-]
+const {User}=require('../Models/userModle')
 
 
-router.get('/get-users',(req,res)=>
-{
+router.get('/get-users', async (req,res)=>
+{    
+    const users= await User.find()
     res.send(users)
 })
 
 
-router.post('/add-user',(req,res)=>
-{
-    const user=
-    {
-        name: req.body.name,
-        phoneNumber:req.body.phoneNumber,
-        password:req.body.password
+router.post('/add-user', async (req, res) => {
+    try {
+        const { name, phoneNumber, password } = req.body;
 
+        const newUser = new User({
+            name: name,
+            phoneNumber: phoneNumber,
+            password: password
+        });
+
+        const savedUser = await newUser.save();
+
+        res.status(201).send(savedUser);
+    } catch (error) {
+        res.status(500).send({ message: error.message });
     }
+});
 
-users.push(user)
-res.send(users)
-    
-})
+
 
 
 module.exports=router
