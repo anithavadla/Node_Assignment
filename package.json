@@ -9,7 +9,9 @@
   "author": "Anitha Vadla",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
+    "joi": "^13.1.0",
     "mongoose": "^8.2.4",
     "nodemon": "^3.1.0"
   }
