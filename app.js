@@ -1,8 +1,10 @@
 const express=require('express')
 const app=express()
-const users=require('./Routes/user')
+const users=require('./Routes/userRoute')
 const mongoose=require('mongoose')
 const cookieParser=require('cookie-parser')
+const dotenv= require('dotenv').config()
+const cors=require('cors')
 
 
 
@@ -21,5 +23,7 @@ app.use(cookieParser())
 
 
 
-const port= process.env.PORT || 3000
+
+
+const port= process.env.PORT || 8000
 app.listen(port, ()=> console.log(`Port is running on ${port}`))
