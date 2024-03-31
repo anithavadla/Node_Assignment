@@ -2,6 +2,7 @@ const express=require('express')
 const app=express()
 const users=require('./Routes/user')
 const mongoose=require('mongoose')
+const cookieParser=require('cookie-parser')
 
 
 
@@ -13,6 +14,7 @@ mongoose.connect('mongodb://localhost/VooshDataBase',{ useNewUrlParser: true, us
 
 app.use(express.json())
 app.use(users)
+app.use(cookieParser())
 
 
 
