@@ -24,8 +24,8 @@ const getOrder = async (req, res) => {
 
         const orders = await Order.find({ user: user_id });
 
-        const  orderDeatils={id:orders.userId, subToatal:orders.subTotal,phoneNumber:orders.phoneNumber}
-        res.json(orderDeatils);
+        // const  orderDeatils={id:orders.userId, subToatal:orders.subTotal,phoneNumber:orders.phoneNumber}
+        res.json(orders);
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ error: 'Server error' });
