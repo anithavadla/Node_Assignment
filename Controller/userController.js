@@ -26,6 +26,14 @@ const signUpUser =  async (req, res) =>
     try {
         const { name, phoneNumber, password } = req.body;
 
+        const exist= await User.findOne({ phoneNumber})
+        if(exist){
+            return res.json({
+                error: 'User with this phone number exists'
+            })
+        }
+       
+
        const hashedPassword=  await bcrypt.hash(password,10)
 
         const newUser = new User({
