@@ -46,4 +46,5 @@ function validateIncomingData(user) {
 
 
 exports.User = User
+exports.userSchema=userSchema
 exports.validate = validateIncomingData

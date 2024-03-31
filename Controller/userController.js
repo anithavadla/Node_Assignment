@@ -5,10 +5,6 @@ const {User,validate}=require('../Models/userModle')
 const secretKey = 'voosh_secret_key';
 const maxAge=3*24*60*60;
 
-const test = (req,res)=>
-{
-res.json('working')
-}
 
 
 const getUsers = async (req, res)=>
@@ -21,7 +17,9 @@ const getUsers = async (req, res)=>
 const signUpUser =  async (req, res) =>
 {
     const {error}=validate(req.body)
-    if (error) return res.status(400).send(error.details[0].message)
+    if(error) res.json({
+        error: error.details[0].message
+    })
 
     try {
         const { name, phoneNumber, password } = req.body;
@@ -46,11 +44,42 @@ const signUpUser =  async (req, res) =>
         const token=createToken(savedUser.id)
         res.cookie('jwt',token,{httpOnly:true},{maxAge:maxAge*1000})
         console.log(token)
+        
         res.status(201).send(savedUser.id);
     } catch (error) {
         res.status(500).send({ message: error.message });
     }
 }
+
+
+
+
+const logInUser = async (req, res) => {
+    try {
+        const { phoneNumber, password } = req.body;
+
+        const user = await User.findOne({ phoneNumber });
+        if (!user) {
+            return res.json({ error: "User doesn't exist" });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (passwordMatch) {
+            const token=createToken(user.id)
+            res.cookie('jwt',token,{httpOnly:true},{maxAge:maxAge*1000})
+            console.log(token)
+            return res.json({ message: 'Logged in successfully' });
+        } else {
+            
+            return res.json({ error: 'Incorrect password' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
 
 const createToken = (id)=>{
     return jwt.sign({id},secretKey,{
@@ -62,7 +91,7 @@ const createToken = (id)=>{
 
 module.exports=
 {
-    test,
     signUpUser,
-    getUsers
+    getUsers,
+    logInUser,
 }
