@@ -5,7 +5,7 @@ const mongoose=require('mongoose')
 
 
 
-mongoose.connect('mongodb://localhost/VooshDataBase')
+mongoose.connect('mongodb://localhost/VooshDataBase',{ useNewUrlParser: true, useUnifiedTopology: true })
 .then(()=> console.log('Connection is successful'))
 .catch((err)=> console.error('Couldnot connect to mongoDB',err))
 
