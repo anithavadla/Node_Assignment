@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {test,signUpUser,getUsers,logInUser,getProfile}=require('../Controller/userController')
+const {signUpUser,getUsers,logInUser}=require('../Controller/userController')
 
 
 const cors=require('cors')
